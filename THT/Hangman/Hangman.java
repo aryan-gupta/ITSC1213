@@ -331,7 +331,14 @@ public class Hangman
 	}
 	
 	/**
+	 * Attempts to guess a full string, the string can contain space and
+	 * will count as a multi-word guess. The guess is case-insensitive 
+	 * This function also double checks if we have guessed the string 
+	 * before. Similar to @sa HangmanStatus tryChar(char), this function
+	 * uses the original string to replace the @c{mGuessedSentence} to 
+	 * preserve the case from the original string. 
 	 *
+	 * @param String str - The string we want to guess
 	 */
 	private HangmanStatus tryString(String str) {
 		// There is different states for our str,
@@ -379,6 +386,15 @@ public class Hangman
 		}
     }
     
+	/**
+	 * This function returns the String representation of the class. 
+	 * The basic format it this: ASCII image of the man, guessed string,
+	 * characters we have guessed, then words/strings we have guessed. 
+	 * EX: 
+	 * 
+	 *
+	 * @return String - The string representation of the object
+	 */
     public String toString() {
         return
         numGuess2str(mNumMissed) + "\n" +

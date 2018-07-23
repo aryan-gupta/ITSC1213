@@ -1,9 +1,13 @@
 
 /**
- * Write a description of class HangmanDriver here.
+ * The Driver for our Hangman Game, runs an advanced version of the game,
+ * filled with features such as external c/c++ library calls to call Win API
+ * functions (Using JNI). A readHiddenString meathod that hides whatever the
+ * user is typeing (like typing in root password on linux). And other smaller
+ * features
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Aryan Gupta
+ * @version 1.0
  */
 
 import java.util.Scanner;
@@ -23,26 +27,44 @@ public class HangmanDriver extends Thread {
 	// write our c program that will do whatever we want
 	// compile with directions in the c file
 	// use our library!
-	private static boolean useCLibrary;
+	private static boolean useCLibrary; // tells out program is we found
+	// our external library and were able to load it into memory
 	
 	static {
 		try {
 			System.loadLibrary("clear_screen"); // loads clear_screen
 			useCLibrary = true;
 		} catch (java.lang.UnsatisfiedLinkError e) {
-			useCLibrary = false;
+			useCLibrary = false; // if we cant load out library then dont use the
+			// the external library function
 		}
 	}
 	
-	private native static void clear_screen_win_api();
+	private native static void clear_screen_win_api(); // function to call our external library
    
+    /**
+	 * Our program entry point
+	 *
+	 * @param String[] args - The commandline arguments
+     */
     public static void main(String args[]) {
+		while (true) {
+			playGame();
+			System.out.println("Would you like to play again?");
+			System.out.print("Would you like to play again?");
+			Scanner in = new Scanner(System.in);
+			char 
+		}
+	}
+	
+	public static void playGame() {
 		Scanner in = new Scanner(System.in);
 		
-		String guessStr = null;
+		String guessStr = null; // our while loop below will loop until
+		// we get a valid string in this
 		
 		clearScreen();
-		System.out.println();
+		System.out.println(); // add a line for the error message (looks better if we do)
 		
 		do {
 			System.out.println("Welcome to Aryan's ASCII Hangman Game!");
@@ -91,10 +113,8 @@ public class HangmanDriver extends Thread {
 		//System.out.println(guessStr);
 		
 		Hangman dude = new Hangman(guessStr);
-		//System.out.print('\u000C');
-		//for (int i = 0; i < 50; ++i) System.out.println();
 		clearScreen();
-		System.out.println("");
+		System.out.println(); // add an empty line for space for an error message
 		
 		while (true) {
 			System.out.println(dude);
