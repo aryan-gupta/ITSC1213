@@ -281,7 +281,13 @@ public class Hangman
     }
     
 	/**
-	 * Attempts to guess a single character
+	 * Attempts to guess a single character. The character MUST be lowercase
+	 * The function is case-insensitive, if we try to guess a lowercase a,
+	 * It will automatically guess both an UPPERCASE A and an lowercase a.
+	 * It will also use the chars from the orignal string so the replaced
+	 * character will have the same case as the original string. 
+	 * The function will automatically will check if we have guessed the 
+	 * letter before. 
 	 *
 	 * @param char guess - The character we want to guess
 	 */
@@ -324,6 +330,9 @@ public class Hangman
         return HangmanStatus.GUESS_CORRECT;	
 	}
 	
+	/**
+	 *
+	 */
 	private HangmanStatus tryString(String str) {
 		// There is different states for our str,
 		// 1) str can be an entire sentence guess
