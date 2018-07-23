@@ -49,15 +49,19 @@ public class HangmanDriver extends Thread {
      */
     public static void main(String args[]) {
 		while (true) {
-			playGame();
+			if (playGame()) 
+				break;
 			System.out.println("Would you like to play again?");
-			System.out.print("Would you like to play again?");
+			System.out.print(":: ");
 			Scanner in = new Scanner(System.in);
-			char 
+			char response = in.nextLine().toLowerCase().charAt(0);
+			if (response != 'y')
+				break;
 		}
+		System.out.println("Goodbye!");
 	}
 	
-	public static void playGame() {
+	public static boolean playGame() {
 		Scanner in = new Scanner(System.in);
 		
 		String guessStr = null; // our while loop below will loop until
@@ -78,7 +82,7 @@ public class HangmanDriver extends Thread {
 			
 			System.out.print("Your Choice:: ");
 			String choiceStr = in.nextLine();
-			if (choiceStr.equals("exit")) return;
+			if (choiceStr.equals("exit")) return true;;
 			
 			int choice = 0;
 			try {
@@ -123,11 +127,15 @@ public class HangmanDriver extends Thread {
 			String buffer = in.nextLine();
 			Hangman.HangmanStatus status = Hangman.HangmanStatus.GUESS_INVALID;
 			
-			if (buffer.toLowerCase().equals("exit")) break;
+			if (buffer.isEmpty()) {
+				clearScreen();
+				System.out.println("Please enter something...");
+				continue;
+			}
+			
+			if (buffer.toLowerCase().equals("exit")) return true;
 			status = dude.addGuess(buffer);
 			
-			//System.out.print('\u000C');
-			//for (int i = 0; i < 50; ++i) System.out.println();
 			clearScreen();
 			
 			switch (status) {
@@ -145,19 +153,25 @@ public class HangmanDriver extends Thread {
 				
 				case GUESS_WIN:
 					System.out.println("You Win!!!!!");
-					System.out.println(dude);
-				return;
+					System.out.println(dude); // print the dude one more time so the user can see the final state
+				return false;
 				
 				case GUESS_LOSE:
 					System.out.println("YOU LOSE!");
 					System.out.println(dude);
-				return;
+				return false;
 				
 				default:
 			}
 		}
 	}
-
+	
+	/**
+	 * Shows the help text for the Hangman Game
+	 * @warning input buffer must be cleared after calling,
+	 * need to figure out a way to get around this without
+	 * using a scanner
+	 */
 	private static void showHelp() {
 		clearScreen();
 		System.out.println("The rules of Aryan's Hangman is simple.");
@@ -178,6 +192,12 @@ public class HangmanDriver extends Thread {
 		}
 	}
 	
+	/**
+	 * Returns a random line from a file specified from the file 
+	 *
+	 * @param String filename - The name of the file we should read from
+	 * @return String - A random line from the file
+	 */
 	private static String getRandomStringFromFile(String filename) {
 		Scanner in = null;
 		try {
@@ -194,6 +214,12 @@ public class HangmanDriver extends Thread {
 		return in.nextLine();
 	}
 	
+	/**
+	 * Reads in a string in a way so that the user cant see that he
+	 * is typing in the console.
+	 *
+	 * @return String - The string the user input into the console
+	 */
 	private static String getHiddenString() {
 		// https://stackoverflow.com/questions/8138411/masking-password-input-from-the-console-java
 		// http://www.javaxt.com/Tutorials/Console_Apps/How_To_Prompt_a_User_for_a_Username_and_Password_from_the_Command_Line
@@ -237,8 +263,12 @@ public class HangmanDriver extends Thread {
 	}
 	
 	// Ahhh the joys of multi-threading. 
-	private boolean running = true;
+	private boolean running = true; // controls the screen clearing thread
 	
+	/**
+	 * Runs in another thread and constantly clears out the terminal
+	 * while the user is typing his secret String. Hacky but works
+	 */
 	public void run() {
 		while (running) {
 			clearScreen();
@@ -251,10 +281,18 @@ public class HangmanDriver extends Thread {
 		}
 	}
 	
+	/**
+	 * A function that stops the thread clearing the screen @sa HangmanDriver.run()
+	 * This function is synchronized so there is no race condition on running variable
+	 */
 	public synchronized void halt() {
 		running = false;
 	}
 	
+	/** 
+	 * Clears the terminal using a Win API call is the library is loaded or by outputting
+	 * a bunch of new lines and a special character that BlueJ interprets as clear screen
+	 */
 	private static void clearScreen() {
 		if (useCLibrary) {
 			clear_screen_win_api();

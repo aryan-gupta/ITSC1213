@@ -400,6 +400,6 @@ public class Hangman
         numGuess2str(mNumMissed) + "\n" +
         "Guessed Sentence: " + mGuessedSentence + "\n" +
         "Guessed Letters : " + mGuessedLetters + "\n" +
-		"Guessed Words: " + getGuessedWordsString() + "\n";
+		"Guessed Words   : " + getGuessedWordsString() + "\n";
     }
 }
