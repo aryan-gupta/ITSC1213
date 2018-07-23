@@ -1,38 +1,79 @@
 
 /**
- * Write a description of class Hangman here.
+ * This class represents a Hangman game. The class stores
+ * the state of the hanged man and the state of the sentence
+ * we have to guess. It allows user to input a new guess 
+ * whether that be a word guess, multi-word guess, or the
+ * classic single letter guess. This class keeps track of
+ * the letter and word guesses so you dont double guess
+ * The class makes sure that there is no difference between
+ * guessing a lowercase or uppercase letter or word
+ * (case-insensitive), however it makes sure that the sentence
+ * printed on the screen has the original case. This class also
+ * gives any non-letter characters as a freebee.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Aryan Gupta
+ * @version 1.0
  */
 public class Hangman
 {
+	/** 
+	 * This enum is used to return the current state of the Hangman. For example,
+	 * if our guess was not in the original string, it will return GUESS_MISS.
+	 * This enum can be replaced by a char as the state handler, but I prefer
+	 * enums
+	 */
     public enum HangmanStatus {
         GUESS_CORRECT, GUESS_REPEAT, GUESS_MISS, GUESS_WIN, GUESS_LOSE, GUESS_INVALID
     }
     
-    private String mSentence;
-    private StringBuilder mGuessedSentence; // not needed but will simplify algorithms
-    private StringBuilder mGuessedLetters;
-	private java.util.Vector<String> mGuessedWords;
-    private int mNumMissed;
+    private String mSentence; // The original string 
+    private StringBuilder mGuessedSentence; // The parts of the sentence we have guessed so far
+    private StringBuilder mGuessedLetters; // letters we have guessed
+	private java.util.Vector<String> mGuessedWords; // words we have guessed
+    private int mNumMissed; // Number of missed trys
     
-    // https://stackoverflow.com/questions/2816123/can-a-constructor-in-java-be-private
-    // I know in c++, this was an old way to prevent users from calling certain
-    // functions. This was before =delete feature was added. 
-    // Link also answers a question had on how to make a function whose sole purpose
-    // is to set up constants, and prevent code redundancy. 
-    private Hangman() { /* Do Nothing */ }
+	/**
+	 * The default constructor, this is labled private to prevent the user from 
+	 * creating an instance of this without a valid string. 
+	 *
+	 */
+    private Hangman() {
+		/* Do Nothing */
+		// https://stackoverflow.com/questions/2816123/can-a-constructor-in-java-be-private
+		// I know in c++, this was an old way to prevent users from calling certain
+		// functions. This was before =delete feature was added. 
+		// Link also answers a question had on how to make a function whose sole purpose
+		// is to set up constants, and prevent code redundancy. 
+	}
     
+	/**
+	 * C'tor that creates this class with an string for the hangman game
+	 *
+	 * @param String sentence - The sentence we want to play Hangman with
+	 */
     public Hangman(String sentence) {
         setSentence(sentence);
     }
     
+	/** 
+	 * Adds a guess into the game, the @param guess can be a full word, multi-word
+	 * or it can be a string with a single character. The function witll automatically 
+	 * decided what type of guess it is and dispatch the proper function to handle the
+	 * guess. 
+	 *
+	 * @param String guess - The String that we want to guess
+	 */
     public HangmanStatus addGuess(String guess) {
 		if (guess.length() > 1) return tryString(guess.toLowerCase());
 		else                    return tryChar(Character.toLowerCase(guess.charAt(0)));
 	}
     
+	/** 
+	 * Resets the Hangman game with a new string. 
+	 *
+	 * @param String sentence - The new sentence we want to play Hangman with
+	 */
     public void setSentence(String sentence) {
 		sentence = " " + sentence + " ";
         mSentence = new String(sentence);
@@ -51,18 +92,39 @@ public class Hangman
         }
     }
     
+	/**
+	 * Returns the original string we are using for the Hangman game
+	 *
+	 * @return String - The original string for the game
+	 */
     public String getSentence() {
         return mSentence;
     }
-    
+
+	/**
+	 * Returns the characters we have already guessed as a string
+	 *
+	 * @return String - The guessed characters as a string
+	 */    
     public String getGuessesChars() {
         return mGuessedLetters.toString();
     }
     
+	/**
+	 * Returns the parts of the string we have already guessed correct
+	 *
+	 * @return String - The parts of the string we have guessed correct
+	 */ 
     public String getGessedSentence() {
         return mGuessedSentence.toString();
     }
     
+	/**
+	 * Returns the full String guesses (words/multi-word) as a
+	 * CSV (comma seperated values) 
+	 *
+	 * @return String - The strings we have guessed as a String
+	 */
 	public String getGuessedWordsString() {
 		if (mGuessedWords.isEmpty())
 			return "";
@@ -76,6 +138,11 @@ public class Hangman
 		return ret.substring(0, ret.length() - 2); // hacky but works
 	}
 	
+	/**
+	 * Returns the full String guesses (words/multi-word) as an Array
+	 *
+	 * @return String - The strings we have guessed as an Array
+	 */
 	public String[] getGuessedWords() {
 		// https://stackoverflow.com/questions/7500259/how-to-convert-vector-to-string-array-in-java
 		// https://stackoverflow.com/questions/28392705/difference-between-toarrayt-a-and-toarray
@@ -83,6 +150,11 @@ public class Hangman
 		return mGuessedWords.toArray(new String[mGuessedWords.size()]);
 	}
 	
+	/**
+	 * Converts the number of missed guesses into the body-parts on the Hangman 
+	 *
+	 * @return String - A String containing the ASCII Hangman image
+	 */
     private static String numGuess2str(int numGuess) {
         switch (numGuess) {
             case 0: return
@@ -208,6 +280,11 @@ public class Hangman
         
     }
     
+	/**
+	 * Attempts to guess a single character
+	 *
+	 * @param char guess - The character we want to guess
+	 */
 	private HangmanStatus tryChar(char guess) {
 		// https://www.javatpoint.com/java-char-to-string
         String guessStr = Character.toString(guess);
