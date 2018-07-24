@@ -11,7 +11,8 @@ public class GamePlay
    {
        Scanner in = new Scanner(System.in);
        char guess;
-       GameWord myPhrase = new GameWord("one day at a time" );
+       //GameWord myPhrase = new GameWord("one day at a time" );
+       Hangman myPhrase = new Hangman("one day at a time" );
        boolean [ ] used = new boolean[255];
        
        System.out.println("\n" + myPhrase.toString( ));
