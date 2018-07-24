@@ -16,7 +16,7 @@
  * @version 1.0
  */
 public class Hangman
-{
+{	
 	/** 
 	 * This enum is used to return the current state of the Hangman. For example,
 	 * if our guess was not in the original string, it will return GUESS_MISS.
@@ -34,17 +34,10 @@ public class Hangman
     private int mNumMissed; // Number of missed trys
     
 	/**
-	 * The default constructor, this is labled private to prevent the user from 
-	 * creating an instance of this without a valid string. 
-	 *
+	 * The default constructor, this sets up the class with a blank string
 	 */
-    private Hangman() {
-		/* Do Nothing */
-		// https://stackoverflow.com/questions/2816123/can-a-constructor-in-java-be-private
-		// I know in c++, this was an old way to prevent users from calling certain
-		// functions. This was before =delete feature was added. 
-		// Link also answers a question had on how to make a function whose sole purpose
-		// is to set up constants, and prevent code redundancy. 
+    public Hangman() {
+		setSentence("");
 	}
     
 	/**
@@ -77,10 +70,11 @@ public class Hangman
     public void setSentence(String sentence) {
 		sentence = " " + sentence + " ";
         mSentence = new String(sentence);
-        // https://stackoverflow.com/questions/1235179/simple-way-to-repeat-a-string-in-java
-		//mGuessedSentence = new StringBuilder(StringUtils.repeat("_", sentence.length()));
-		//mGuessedSentence = new StringBuilder(new String("_").repeat(sentence.length()));
-		mGuessedSentence = new StringBuilder(new String(new char[sentence.length()]).replace("\0", "_"));
+		// there has to be a more elegant way to do this
+		mGuessedSentence = new StringBuilder(sentence);
+		for (int ii = 0; ii < mGuessedSentence.length(); ++ii) {
+			mGuessedSentence.replace(ii, ii + 1, "_");
+		}
         mGuessedLetters = new StringBuilder(""); // empty
 		mGuessedWords = new java.util.Vector<String>();
         mNumMissed = 0;
@@ -136,18 +130,6 @@ public class Hangman
 		}
 		// remove the trailing comma
 		return ret.substring(0, ret.length() - 2); // hacky but works
-	}
-	
-	/**
-	 * Returns the full String guesses (words/multi-word) as an Array
-	 *
-	 * @return String - The strings we have guessed as an Array
-	 */
-	public String[] getGuessedWords() {
-		// https://stackoverflow.com/questions/7500259/how-to-convert-vector-to-string-array-in-java
-		// https://stackoverflow.com/questions/28392705/difference-between-toarrayt-a-and-toarray
-		// https://stackoverflow.com/questions/1018750/how-to-convert-object-array-to-string-array-in-java/13647072#13647072
-		return mGuessedWords.toArray(new String[mGuessedWords.size()]);
 	}
 	
 	/**
@@ -292,7 +274,6 @@ public class Hangman
 	 * @param char guess - The character we want to guess
 	 */
 	private HangmanStatus tryChar(char guess) {
-		// https://www.javatpoint.com/java-char-to-string
         String guessStr = Character.toString(guess);
 		
         // if we already guessed it then we want to 
