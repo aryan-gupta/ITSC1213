@@ -32,12 +32,13 @@ public class Hangman
     private StringBuilder mGuessedLetters; // letters we have guessed
 	private java.util.Vector<String> mGuessedWords; // words we have guessed
     private int mNumMissed; // Number of missed trys
+	private HangmanStatus mLastStatus; // Stores last status. Exists because of assignment requirements
     
 	/**
 	 * The default constructor, this sets up the class with a blank string
 	 */
     public Hangman() {
-		setSentence("");
+		setPhrase("");
 	}
     
 	/**
@@ -46,7 +47,7 @@ public class Hangman
 	 * @param String sentence - The sentence we want to play Hangman with
 	 */
     public Hangman(String sentence) {
-        setSentence(sentence);
+        setPhrase(sentence);
     }
     
 	/** 
@@ -58,8 +59,11 @@ public class Hangman
 	 * @param String guess - The String that we want to guess
 	 */
     public HangmanStatus addGuess(String guess) {
-		if (guess.length() > 1) return tryString(guess.toLowerCase());
-		else                    return tryChar(Character.toLowerCase(guess.charAt(0)));
+		if (guess.length() > 1) {
+			return mLastStatus = tryString(guess.toLowerCase());
+		} else {
+			return mLastStatus = tryChar(Character.toLowerCase(guess.charAt(0)));
+		}
 	}
     
 	/** 
@@ -67,7 +71,7 @@ public class Hangman
 	 *
 	 * @param String sentence - The new sentence we want to play Hangman with
 	 */
-    public void setSentence(String sentence) {
+    public void setPhrase(String sentence) {
 		sentence = " " + sentence + " ";
         mSentence = new String(sentence);
 		// there has to be a more elegant way to do this
@@ -85,7 +89,44 @@ public class Hangman
             if (!Character.isLetter(ch)) mGuessedSentence.replace(ii, ii + 1, Character.toString(ch));
         }
     }
+   	
+	/**
+	 * Returns if we have lost the game or not. This function exists because of
+	 * the requirements of the assignment
+	 */
+	public boolean getGameOver() {
+		return mLastStatus == HangmanStatus.GUESS_LOSE;
+	}
+
+	/**
+	 * Tries to guess the character. Stores the state in mLastStatus. 
+	 *
+	 * @param char symbol - The char we want to guess
+	 */
+	public void find(char symbol) {
+		mLastStatus = tryChar(Character.toLowerCase(symbol));
+	}
+	
+	/**
+	 * Returns if we have won or not.
+	 * 
+	 * @return boolean - If we have won the game or not
+	 */
+	public boolean checkWin() {
+		if (mGuessedSentence.indexOf("_") == -1) 
+			return true;
+		return false;
+	}
     
+	/**
+	 * Returns the last status of the game.
+	 *
+	 * @return HangmanStatus - The status of the last guess
+	 */
+	public HangmanStatus getLastStatus() {
+		return mLastStatus;
+	}
+	
 	/**
 	 * Returns the original string we are using for the Hangman game
 	 *
@@ -131,7 +172,24 @@ public class Hangman
 		// remove the trailing comma
 		return ret.substring(0, ret.length() - 2); // hacky but works
 	}
-	
+
+	/**
+	 * This function returns the String representation of the class. 
+	 * The basic format it this: ASCII image of the man, guessed string,
+	 * characters we have guessed, then words/strings we have guessed. 
+	 * EX: 
+	 * 
+	 *
+	 * @return String - The string representation of the object
+	 */
+    public String toString() {
+        return
+        numGuess2str(mNumMissed) + "\n" +
+        "Guessed Sentence: " + mGuessedSentence + "\n" +
+        "Guessed Letters : " + mGuessedLetters + "\n" +
+		"Guessed Words   : " + getGuessedWordsString() + "\n";
+    }
+
 	/**
 	 * Converts the number of missed guesses into the body-parts on the Hangman 
 	 *
@@ -365,22 +423,5 @@ public class Hangman
             if (mNumMissed > 10) return HangmanStatus.GUESS_LOSE;
 			else                 return HangmanStatus.GUESS_MISS;
 		}
-    }
-    
-	/**
-	 * This function returns the String representation of the class. 
-	 * The basic format it this: ASCII image of the man, guessed string,
-	 * characters we have guessed, then words/strings we have guessed. 
-	 * EX: 
-	 * 
-	 *
-	 * @return String - The string representation of the object
-	 */
-    public String toString() {
-        return
-        numGuess2str(mNumMissed) + "\n" +
-        "Guessed Sentence: " + mGuessedSentence + "\n" +
-        "Guessed Letters : " + mGuessedLetters + "\n" +
-		"Guessed Words   : " + getGuessedWordsString() + "\n";
     }
 }
