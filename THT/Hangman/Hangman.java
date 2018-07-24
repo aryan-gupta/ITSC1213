@@ -10,10 +10,11 @@
  * guessing a lowercase or uppercase letter or word
  * (case-insensitive), however it makes sure that the sentence
  * printed on the screen has the original case. This class also
- * gives any non-letter characters as a freebee.
+ * gives any non-letter characters as a freebee. This code is 
+ * compatible with the legacy example code given by the professor
  *
  * @author Aryan Gupta
- * @version 1.0
+ * @version 3.0
  */
 public class Hangman
 {	
@@ -89,89 +90,6 @@ public class Hangman
             if (!Character.isLetter(ch)) mGuessedSentence.replace(ii, ii + 1, Character.toString(ch));
         }
     }
-   	
-	/**
-	 * Returns if we have lost the game or not. This function exists because of
-	 * the requirements of the assignment
-	 */
-	public boolean getGameOver() {
-		return mLastStatus == HangmanStatus.GUESS_LOSE;
-	}
-
-	/**
-	 * Tries to guess the character. Stores the state in mLastStatus. 
-	 *
-	 * @param char symbol - The char we want to guess
-	 */
-	public void find(char symbol) {
-		mLastStatus = tryChar(Character.toLowerCase(symbol));
-	}
-	
-	/**
-	 * Returns if we have won or not.
-	 * 
-	 * @return boolean - If we have won the game or not
-	 */
-	public boolean checkWin() {
-		if (mGuessedSentence.indexOf("_") == -1) 
-			return true;
-		return false;
-	}
-    
-	/**
-	 * Returns the last status of the game.
-	 *
-	 * @return HangmanStatus - The status of the last guess
-	 */
-	public HangmanStatus getLastStatus() {
-		return mLastStatus;
-	}
-	
-	/**
-	 * Returns the original string we are using for the Hangman game
-	 *
-	 * @return String - The original string for the game
-	 */
-    public String getSentence() {
-        return mSentence;
-    }
-
-	/**
-	 * Returns the characters we have already guessed as a string
-	 *
-	 * @return String - The guessed characters as a string
-	 */    
-    public String getGuessesChars() {
-        return mGuessedLetters.toString();
-    }
-    
-	/**
-	 * Returns the parts of the string we have already guessed correct
-	 *
-	 * @return String - The parts of the string we have guessed correct
-	 */ 
-    public String getGessedSentence() {
-        return mGuessedSentence.toString();
-    }
-    
-	/**
-	 * Returns the full String guesses (words/multi-word) as a
-	 * CSV (comma seperated values) 
-	 *
-	 * @return String - The strings we have guessed as a String
-	 */
-	public String getGuessedWordsString() {
-		if (mGuessedWords.isEmpty())
-			return "";
-		
-		String ret = "";
-		for (String str : mGuessedWords) {
-			ret += str;
-			ret += ", ";
-		}
-		// remove the trailing comma
-		return ret.substring(0, ret.length() - 2); // hacky but works
-	}
 
 	/**
 	 * This function returns the String representation of the class. 
@@ -190,6 +108,25 @@ public class Hangman
 		"Guessed Words   : " + getGuessedWordsString() + "\n";
     }
 
+	/**
+	 * Returns the full String guesses (words/multi-word) as a
+	 * CSV (comma seperated values) 
+	 *
+	 * @return String - The strings we have guessed as a String
+	 */
+	public String getGuessedWordsString() {
+		if (mGuessedWords.isEmpty())
+			return "";
+		
+		String ret = "";
+		for (String str : mGuessedWords) {
+			ret += str;
+			ret += ", ";
+		}
+		// remove the trailing comma
+		return ret.substring(0, ret.length() - 2); // hacky but works
+	}
+	
 	/**
 	 * Converts the number of missed guesses into the body-parts on the Hangman 
 	 *
@@ -424,4 +361,75 @@ public class Hangman
 			else                 return HangmanStatus.GUESS_MISS;
 		}
     }
+
+	// ============ Unused accessors functions ================================
+	
+	/**
+	 * Returns the original string we are using for the Hangman game
+	 *
+	 * @return String - The original string for the game
+	 */
+    public String getSentence() {
+        return mSentence;
+    }
+
+	/**
+	 * Returns the characters we have already guessed as a string
+	 *
+	 * @return String - The guessed characters as a string
+	 */    
+    public String getGuessesChars() {
+        return mGuessedLetters.toString();
+    }
+    
+	/**
+	 * Returns the parts of the string we have already guessed correct
+	 *
+	 * @return String - The parts of the string we have guessed correct
+	 */ 
+    public String getGessedSentence() {
+        return mGuessedSentence.toString();
+    }
+    
+	// ============ Functions for legacy use =====================
+	// does Java have [[depreciated]] tag?
+	
+	/**
+	 * Returns if we have lost the game or not. This function exists because of
+	 * the requirements of the assignment
+	 */
+	public boolean getGameOver() {
+		return mLastStatus == HangmanStatus.GUESS_LOSE;
+	}
+
+	/**
+	 * Tries to guess the character. Stores the state in mLastStatus. 
+	 *
+	 * @param char symbol - The char we want to guess
+	 */
+	public void find(char symbol) {
+		mLastStatus = tryChar(Character.toLowerCase(symbol));
+	}
+	
+	/**
+	 * Returns if we have won or not.
+	 * 
+	 * @return boolean - If we have won the game or not
+	 */
+	public boolean checkWin() {
+		if (mGuessedSentence.indexOf("_") == -1) 
+			return true;
+		return false;
+	}
+    
+	/**
+	 * Returns the last status of the game.
+	 *
+	 * @return HangmanStatus - The status of the last guess
+	 */
+	public HangmanStatus getLastStatus() {
+		return mLastStatus;
+	}
+	
+	// =========== End Legacy functions ========================================
 }
