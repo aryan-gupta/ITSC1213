@@ -417,9 +417,7 @@ public class Hangman
 	 * @return boolean - If we have won the game or not
 	 */
 	public boolean checkWin() {
-		if (mGuessedSentence.indexOf("_") == -1) 
-			return true;
-		return false;
+		return mLastStatus == HangmanStatus.GUESS_WIN;
 	}
     
 	/**
