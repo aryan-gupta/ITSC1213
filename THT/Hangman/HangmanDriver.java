@@ -178,7 +178,7 @@ public class HangmanDriver {
 		}
 		java.util.Random rand = new java.util.Random(System.currentTimeMillis());
 		
-		int lineNum = rand.nextInt(10);
+		int lineNum = rand.nextInt(20);
 		
 		while (lineNum --> 0) { String dummy = in.nextLine(); }
 		
