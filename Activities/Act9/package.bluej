@@ -2,10 +2,10 @@
 dependency1.from=GeometryDriver
 dependency1.to=Geometry
 dependency1.type=UsesDependency
-editor.fx.0.height=729
-editor.fx.0.width=814
-editor.fx.0.x=232
-editor.fx.0.y=-13
+editor.fx.0.height=0
+editor.fx.0.width=0
+editor.fx.0.x=0
+editor.fx.0.y=0
 objectbench.height=155
 objectbench.width=762
 package.divider.horizontal=0.6
