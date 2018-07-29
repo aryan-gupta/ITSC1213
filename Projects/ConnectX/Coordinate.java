@@ -62,6 +62,21 @@ public class Coordinate {
 	}
 	
 	/** 
+	 * Adds da and db to the coordinate based on parameters passed in
+	 *
+	 * @param CoordType type - The type of data passed in
+	 * @param int a - X or R (depending on \p type) to add to this
+	 * @param int b - Y or C (depending on \p type) to add to this
+	 */	
+	public Coordinate add(CoordType type, int da, int db) {
+		switch(type) {
+			case RC: return new Coordinate(CoordType.XY, x + db, y + da);
+			case XY: return new Coordinate(CoordType.XY, x + da, y + db);
+		}
+		return null;
+	}
+	
+	/** 
 	 * Gets the X coordinate
 	 *
 	 * @return int - The X coordinate
@@ -97,5 +112,9 @@ public class Coordinate {
 	 */
 	public int getC() {
 		return x;
+	}
+	
+	public String toString() {
+		return "(" + x + ", " + y + ")";
 	}
 }
