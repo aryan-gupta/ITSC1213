@@ -1,0 +1,10 @@
+12323A,repair leaking faucet,23.56,false
+14532E,install garbage disposal,398.40,true
+34234F,snake tub,89.80,false
+43543G,re-route pipe under sink,189.90,true
+212343A,install ice maker,235.25,false
+323243G,install new water heater,654.50,false
+43434F,washing machine hook-up,135.00,true
+32354F,fix outside water spout,125.00,true
+12123D,new shower head,23.56,false
+234354E,fix tub stopper,35.80,true
