@@ -1,0 +1,13 @@
+12
+The Outsider,Stephen King,Scribner Book Company,30.00,978-1-5011-8098-9,May 2018,32
+Shelter in Place,Nora Roberts,St. Martin's Press,27.99,978-1-250-16159-8,May 2018,14
+Magnolia Table: A Collection of Recipes for Gathering,Joanna Gaines,William Morrow & Company,29.99,978-0-06-282015,Apr 2018,13
+Oh the Places You'll Go!,Dr Seuss,Random House Children's Books,17.99,978-0-679-80527-4,Jan 1990,6
+Calypso,David Sedaris,Little Brown and Company,28.00,978-0-316-39238-9,May 2018,21
+Shadow Keeper,Christine Feehan,Berkley Books,7.99,978-0-451-49012-4,May2018,4
+The Gray Ghost,Clive Cussler,G.P. Putnam's Sons,29.00,978-0-7352-1873-4,May 2018,17
+Fairytale,Danielle Steel,Dell,8.99,978-1-101-88408-9,May 2018,2
+12 Rules for Life: An Antidote to Chaos,Jordan B Peterson,Random House Canada,25.95,978-0-345-81602-3,Jan 2018,4
+Educated: A Memoir,Tara Westover,Random House,28.00,978-0-399-59050-4,Feb 2018,2
+Factfulness,Hans Rosling & Anna Rosling Ronnlund,Flatiron Books,27.99,978-1-250-10781-7,Apr 2018,1
+Robin,Dave Itzkoff,Henry Holt & Company,30.00,978-1-62779-424-4,May 2018,3
