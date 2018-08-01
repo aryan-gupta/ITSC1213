@@ -1,11 +1,13 @@
 
+import java.util.Vector;
 
 public class Game21 {	
 	public static void main(String[] str) {
-		while (!playGame());
+		while (playGame());
 	}
 	
 	private static Deck[] decks;
+	private static Deck   inUseDeck;
 	
 	public static boolean playGame() {
 		decks = new Deck[2];
@@ -14,7 +16,57 @@ public class Game21 {
 			decks[ii].reset();
 		}
 		
-		Deck inUseDeck = decks[0];
+		inUseDeck = decks[0];
+		
+		// array to store the cards in our hands
+		Vector<Card> dealerCards = new Vector<>();
+		Vector<Card> playerCards = new Vector<>();
+		
+		// By default, each person gets 2 cards
+		try {
+			dealerCards.add(inUseDeck.getTopCard());
+			dealerCards.add(inUseDeck.getTopCard());
+			
+			// playerCards.add(inUseDeck.getTopCard());
+			// playerCards.add(inUseDeck.getTopCard());
+			// playerCards.add(inUseDeck.getTopCard());
+			// playerCards.add(inUseDeck.getTopCard());
+		} catch (Deck.CardDrawOnEmptyDeck e) {
+			System.err.println("Error: Deck does not contain 4 cards at initial dealing of cards");
+			System.exit(-1);
+		}
+		
+		playerCards.add(new Card('C', 'A'));
+		playerCards.add(new Card('C', 'A'));
+		playerCards.add(new Card('C', '2'));
+		
+		renderHand(dealerCards, playerCards);
+		
+		return false;
+	}
+	
+	private static void renderHand(Vector<Card> dealer, Vector<Card> player) {
+		System.out.print("Dealer: ");
+		System.out.print(dealer.firstElement());
+		System.out.print(" ");
+		
+		for (int ii = 1; ii < dealer.size(); ++ii) {
+			System.out.print("-- ");
+		}
+		
+		System.out.println();
+		
+		System.out.print("Player: ");
+		for (Card c : player) {
+			System.out.print(c);
+			System.out.print(" ");
+		}
+		
+		System.out.println();
+		
+		System.out.println("Total Points: " + getPoints(player));
+	}
+	
 	public static int getPoints(Vector<Card> hand) {
 		// go through our hand and add up all the card values, but skip all the aces
 		// we will count all the ace values at the end. We will keep a count of how
@@ -27,24 +79,22 @@ public class Game21 {
 			points += pValue;
 		}
 		
-		// Now that we have a precount of our points, add up the aces as 11s first, if 
-		// we exceed 21 then resort back to the value being 1. However if we exceed 21
-		// even if we use some aces as 11 and the rest as 1's then trash eveything and
-		// add all of them as 1. This algorithm should be fit for this specific task
-		// and doesnt really work with larger values above 21. Im really sleepy rn. Might
-		// optimize this later. OMG this looks so ugly
-		int aceAdded = 0;
-		int tempPoints = points;
-		while (aceAdded++ < numAce) {
-			if (tempPoints + 11 > 21) {
-				tempPoints += 1;
-				if (tempPoints > 21) {
-					return points + numAce;
-				}
-			} else {
-				tempPoints += 11;
+		// Now that we have a precount of our points, if we have one ace then count it as 
+		// a 11 but if we exceed 21 count it as 1. If we have more than one ace as 11 
+		// if we can (final sum must be under 21) then count the rest as 1.
+		
+		if (numAce == 1) {
+			if (points + 11 > 21) {
+				return points + 1;
 			}
+			return points + 11;
 		}
-		return tempPoints;
+		
+		// try to get points with one ace as 11 (points + 11 + (numAce - 1))
+		if (points + 10 + numAce > 21) {
+			return points + numAce;
+		}
+		
+		return points + 10 + numAce;
 	}
 }
