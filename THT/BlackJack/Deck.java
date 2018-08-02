@@ -32,8 +32,9 @@ public class Deck {
 	}
 	
 	public Card getTopCard() throws CardDrawOnEmptyDeck {
+		// acording to the professor, must use a copy c'tor
 		if (mTopCard < 0) throw new CardDrawOnEmptyDeck();
-		return mDeck[--mTopCard];
+		return new Card(mDeck[--mTopCard]);
 	}
 	
 	public void reset() {
@@ -43,7 +44,19 @@ public class Deck {
 	
 	public void shuffle() {
 		// why reinvent the wheel?
-		Collections.shuffle(Arrays.asList(mDeck));
+		// Collections.shuffle(Arrays.asList(mDeck));
+		
+		// for the ruberic points
+		java.util.Random rand = new java.util.Random();
+		int loop = 1000;
+		while (loop --> 0) {
+			int a = rand.nextInt(SIZE);
+			int b = rand.nextInt(SIZE);
+			
+			Card tmp = mDeck[a];
+			mDeck[a] = mDeck[b];
+			mDeck[b] = tmp;
+		}
 	}
 	
 	public String toString() {

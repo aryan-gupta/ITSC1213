@@ -21,9 +21,19 @@ public class Card {
 		mFace = Face.FR;
 	}
 	
+	public Card(Card o) {
+		// Could someone eplain to me why we need this as public?
+		mSuit = o.mSuit;
+		mFace = o.mFace;
+	}
+	
 	public Card(char suit, int face) {
 		mSuit = char2Suit(suit);
 		mFace = Card.int2Face(face);
+	}
+	
+	public Card(char suit, int face, int value) {
+		this(suit, face);
 	}
 	
 	public Card(char suit, char face) {
@@ -185,6 +195,7 @@ public class Card {
 	}
 
 	public String toString() {
+		// we want 10's to be 10 and not 0. Maybe change this later?
 		return "" + getSuitChar() + getFaceChar();// + " - " + getValue();
 	}
 }
