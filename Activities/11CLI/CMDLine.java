@@ -19,12 +19,12 @@ public class CMDLine {
 		}
 		
 		PrintWriter outFile;
-		//try {
+		try {
 			outFile = new PrintWriter(args[1]);
-		// } catch (FileNotFoundException e) {
-			// System.err.println("Error: File not found '" + args[1] + "'");
-			// return;
-		// }
+		} catch (FileNotFoundException e) {
+			System.err.println("Error: File not found '" + args[1] + "'");
+			return;
+		}
 		
 		while (inFile.hasNext()) {
 			outFile.println(inFile.nextLine());
