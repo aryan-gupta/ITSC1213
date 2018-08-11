@@ -18,11 +18,11 @@
  * @version 1.0
  */
 public class Board{
-    private char[][] board;
+    private char[][] board; // Stores our board as 2D Array of chars
     
-	/** 
+    /** 
      * Default Constructor. Creates a 7 by 6 board.
-	 */
+     */
     public Board(){
         board =new char [6][7];
     }
@@ -34,13 +34,13 @@ public class Board{
      * @return char - The piece that is the winner of the board
      */
     public char getWinner() {
-		/// @note The original code here was written with a helper class called Coordinate,
-		/// This allowed me to forget the differences between XY and RC coordinates, however
-		/// was later removed. Another idea we had was to make a ConnectX game where we could
-		/// choose how many 'in-a-row' we would need to win (4-in-a-row, 5-in-a-row, etc).
-		/// However idea was abandoned due to time constraints. mDepth represents the 'in-rows'
-		/// we need to win (in this case its 4). I replaced all instances of mDepth with constant 4
-		
+        /// @note The original code here was written with a helper class called Coordinate,
+        /// This allowed me to forget the differences between XY and RC coordinates, however
+        /// was later removed. Another idea we had was to make a ConnectX game where we could
+        /// choose how many 'in-a-row' we would need to win (4-in-a-row, 5-in-a-row, etc).
+        /// However idea was abandoned due to time constraints. mDepth represents the 'in-rows'
+        /// we need to win (in this case its 4). I replaced all instances of mDepth with constant 4
+        
         // Pretty much we want to go through each position on the board and skip any ones that
         // don't have any chars (char at that position is \0). For the Up/Down direction we only
         // need to check every mDepth row starting at row number -1. So for example, if our mDepth
@@ -190,7 +190,7 @@ public class Board{
         || col <  0;
         
     }
-	
+    
     /**
      * Places a piece on the board. Lets the piece 'slide' to the bottom.
      *
@@ -207,15 +207,15 @@ public class Board{
         
     }
     
-	/** 
-	 * Returns the top most available spot to place the piece
-	 * The int returned and the column pair to make a coordinate
-	 * that is guaranteed to be free (empty)
-	 *
-	 * @author Manuel Diaz, Efrem Gebrekidane, Aryan Gupta
-	 * @param int column - The column to get the top-most available cell
-	 * @return int - The row of the top-most available cell
-	 */
+    /** 
+     * Returns the top most available spot to place the piece
+     * The int returned and the column pair to make a coordinate
+     * that is guaranteed to be free (empty)
+     *
+     * @author Manuel Diaz, Efrem Gebrekidane, Aryan Gupta
+     * @param int column - The column to get the top-most available cell
+     * @return int - The row of the top-most available cell
+     */
     private int getAvailable(int column){
       for(int i = 0; i< board.length; i++){
           if (board[i][column] != '\0'){
@@ -225,13 +225,13 @@ public class Board{
         return board.length -1;
     }
     
-	/** 
-	 * Returns true if the board is filled and no more pieces can be 
-	 * placed on the board. 
-	 *
-	 * @author Manuel Diaz, Efrem Gebrekidane, Aryan Gupta
-	 * @return boolean - If the board is filled
-	 */
+    /** 
+     * Returns true if the board is filled and no more pieces can be 
+     * placed on the board. 
+     *
+     * @author Manuel Diaz, Efrem Gebrekidane, Aryan Gupta
+     * @return boolean - If the board is filled
+     */
     public boolean getFill(){
         for (int i = 0; i< board.length; i++){
           for(int k = 0; k< board[i].length; k++){
@@ -243,18 +243,18 @@ public class Board{
         return true;
     }
     
-	/** 
+    /** 
      * Returns the string representation of the board
-	 *
-	 * @author Manuel Diaz, Efrem Gebrekidane, Aryan Gupta
-	 * @return String - A textual representation of the state of the Board object
+     *
+     * @author Manuel Diaz, Efrem Gebrekidane, Aryan Gupta
+     * @return String - A textual representation of the state of the Board object
      * showing the chips that have been place
-	 */
+     */
     public String toString(){
         String table = new String();
         
         for(int i =0; i <board.length; i++){
-			table += "|";
+            table += "|";
             for(int k = 0; k< board[i].length; k++){
                 table += (board[i][k] == '\0') ? ' ': board[i][k];
                 table += " | ";
@@ -276,7 +276,7 @@ public class Board{
  Aug 9 - Manuel Diaz
     - Added comment to each method left
  Aug 10 - Aryan
-	- Add documentation to non-doc'ed methods
-	- Add grid to toString() method
-	- Merged Manuel's edits into final version
+    - Add documentation to non-doc'ed methods
+    - Add grid to toString() method
+    - Merged Manuel's edits into final version
 */
