@@ -21,7 +21,7 @@ public class Connect4{
         Scanner input = new Scanner(System.in);
         //variables
         int choice = 0;
-        int column ;
+        int column;
         char playAgain = 'y', computerChip = ' ', playerChip= ' ';
         
         //This is the initial menu that ask and prompts the
@@ -52,9 +52,9 @@ public class Connect4{
                 // This is the manu to select the user chip
                 //the user can aither pick X or Y
                 System.out.println("Select a chip to play");
-                System.out.println("1. \"X\"");
-                System.out.println("2. \"Y\"");
-                System.out.print(":: ");
+                System.out.println("1) X");
+                System.out.println("2) Y");
+                System.out.print("Choose a piece:: ");
                 choice = input.nextInt();
                 char winner = 0;
                 //The loop below is to make sure the user inputs
@@ -63,10 +63,10 @@ public class Connect4{
                 while (choice < 1 || choice > 2)
                 {
                     System.out.println("***INVALID CHOICE***");
-                    System.out.println("Please enter a1 or a2");
+                    System.out.println("Please enter a 1 or a 2");
                     System.out.println("1) X");
                     System.out.println("2) Y");
-                    System.out.print("Choose a piece: ");
+                    System.out.print("Choose a piece:: ");
                     choice = input.nextInt();
                 } 
                 //Depending on the user choice the playerChip and the computerChip
@@ -85,13 +85,13 @@ public class Connect4{
                 {
                     System.out.println(board.toString());
                     //play the game
-                    System.out.println("Which column do you want to place the chip 0-6: ");
+                    System.out.print("Which column do you want to place the chip 0-6:: ");
                     column = input.nextInt();
                     // checking or validating for the user column input
                     while (column < 0 || column > 6)
                     {
                         System.out.println("***INVALID NUMBER OF COLUMS ENTERED****");
-                        System.out.println("Which column do you want to place the chip 0-6: ");
+                        System.out.print("Which column do you want to place the chip 0-6:: ");
                         column = input.nextInt();
                     }
                     
@@ -135,7 +135,7 @@ public class Connect4{
                 }
                 
                 //ask ghe user if the want to play again
-                System.out.println("Do you want to play again Y/N:");
+                System.out.print("Do you want to play again Y/N:: ");
                 playAgain = input.next( ).charAt(0); 
                 //displays a massage according to user selection
                 if(playAgain == 'n' || playAgain == 'N'){

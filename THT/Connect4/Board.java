@@ -253,15 +253,35 @@ public class Board{
     public String toString(){
         String table = new String();
         
+        // Insert first ------- row
+        for(int k = 0; k< board[0].length; k++){
+            table += " ---";
+        }
+        table += "\n";
+        
+        // output actual table
         for(int i =0; i <board.length; i++){
-            table += "|";
+            // table row
+            table += "| ";
             for(int k = 0; k< board[i].length; k++){
                 table += (board[i][k] == '\0') ? ' ': board[i][k];
                 table += " | ";
-                
             }
-            table += " |\n";
+            table += "\n";
+            
+            // ---- padded row
+            for(int k = 0; k< board[i].length; k++){
+                table += " ---";
+            }
+            table += "\n";
         }
+        
+        // add numbers
+        for(int k = 0; k< board[0].length; k++){
+            table += "  " + k + " ";
+        }
+        table += "\n";
+        
         return table;
     }
     
@@ -279,4 +299,5 @@ public class Board{
     - Add documentation to non-doc'ed methods
     - Add grid to toString() method
     - Merged Manuel's edits into final version
+    - Add col numbers in toString method
 */
