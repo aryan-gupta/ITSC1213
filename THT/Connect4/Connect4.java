@@ -23,6 +23,7 @@ public class Connect4{
         int choice = 0;
         int column;
         char playAgain = 'y', computerChip = ' ', playerChip= ' ';
+		int playerWins = 0, computerWins = 0;
         
         //This is the initial menu that ask and prompts the
         //user to select 1 to play or 2 to exit
@@ -128,17 +129,23 @@ public class Connect4{
                 if (winner == playerChip)
                 {
                     System.out.println("The player has won!!");
+					++playerWins;
                 } 
-                else 
+                else if (winner == computerChip)
                 {
                     System.out.println("The computer has won!!");
-                }
+					++computerWins;
+                } else if (board.getFill()) {
+					System.out.println("It's a Tie!");
+				}
                 
                 //ask ghe user if the want to play again
                 System.out.print("Do you want to play again Y/N:: ");
                 playAgain = input.next( ).charAt(0); 
                 //displays a massage according to user selection
                 if(playAgain == 'n' || playAgain == 'N'){
+					System.out.println("Player Wins: " + playerWins);
+					System.out.println("Computer Wins: " + computerWins);
                     System.out.println("GoodBye");
                 }
                 //reinitializes the Board and the winner for the next game
@@ -148,7 +155,9 @@ public class Connect4{
         }
         else 
         {
-          System.out.println("GoodBye");
+			System.out.println("Player Wins: " + playerWins);
+			System.out.println("Computer Wins: " + computerWins);
+			System.out.println("GoodBye");
         }
     }
 }
@@ -175,7 +184,7 @@ public class Connect4{
     -debug problems with computer AI
  Aug 10 - Aryan
     - Formatting overhaul (blame bluej)
-         - \t --> ____ (bluej doesn't like tabs, tabs > spaces)
+        - \t --> ____ (bluej doesn't like tabs, tabs > spaces)
     - Grammar fixes that were not merged with Efrem's edit
     - Fix wrong use of board1 vs board variable
     - Fix bug where board isnt cleared when we choose to play again
@@ -183,4 +192,6 @@ public class Connect4{
         - After a review of both codes from Manuel and Efrem, I decided Manuel's
           code was better as it reduced code redundancy. Original in git repo
         - Manuel's code addressed the last 2 fixes that I did (b1 vs b var) (b isnt cleared)
+	- Add "Keeps track of how many rounds the player has won, lost, and tied."
+	- Add computer/player tie situation
 */
