@@ -1,0 +1,6 @@
+Lab dog,Charley,65.00
+Tabby cat,Honey,45.00
+Collie dog,Susie,65.00
+Calico cat,Hunter,50.00
+Parrot,Squawker,110.99
+Opposum,Snuggle,15.00
