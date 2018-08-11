@@ -1,4 +1,3 @@
-
 /**
  * This class represents a Board for a Connect 4 game. You can
  * place a chip at any column and the class will automatically 
@@ -6,12 +5,24 @@
  * and place the chip there. The class also has method for checking
  * the winner, if any \sa getWinner() 
  *
+ * To summarized work load:
+ * We work together in lab the day the assigment was created. Almost the whole game was finished this day
+ * that is why some code have three names
+ * we finish the main class and the Board class working together the same day. 
+ * then Aryan added two more methods to the board class and some comments
+ * Efrem added code for the validation of inputs and a Ai feature to the computer's turn
+ * Manuel commented all methods left in the board class, added comments for each of the parts in main and debugged code
+ * to be ready to submit
+ *
  * @author Manuel Diaz, Efrem Gebrekidane, Aryan Gupta
  * @version 1.0
  */
 public class Board{
     private char[][] board;
     
+	/** 
+     * Default Constructor. Creates a 7 by 6 board.
+	 */
     public Board(){
         board =new char [6][7];
     }
@@ -23,8 +34,13 @@ public class Board{
      * @return char - The piece that is the winner of the board
      */
     public char getWinner() {
-        // sigh... https://stackoverflow.com/questions/9963325/shortening-type-names-in-java
-        
+		/// @note The original code here was written with a helper class called Coordinate,
+		/// This allowed me to forget the differences between XY and RC coordinates, however
+		/// was later removed. Another idea we had was to make a ConnectX game where we could
+		/// choose how many 'in-a-row' we would need to win (4-in-a-row, 5-in-a-row, etc).
+		/// However idea was abandoned due to time constraints. mDepth represents the 'in-rows'
+		/// we need to win (in this case its 4). I replaced all instances of mDepth with constant 4
+		
         // Pretty much we want to go through each position on the board and skip any ones that
         // don't have any chars (char at that position is \0). For the Up/Down direction we only
         // need to check every mDepth row starting at row number -1. So for example, if our mDepth
@@ -87,16 +103,16 @@ public class Board{
         // 1       X       X
         // 2       X       X
         // 3 X X X X X X X X X X
-        // 4       X O     X
-        // 5       X   O   X
-        // 6       X     O X
+        // 4       X O O O X
+        // 5       X O O O X
+        // 6       X O O O X
         // 7 X X X X X X X X X X
         // 8       X       X
         // 9       X       X
-        // To show diagonal distance I have added a few Os's
+        // To show distances I have added a few O's
         // Honestly, I'm not sure how to implement this with a for loop, so I'm just
         // going to loop though every one of them and just filter the ones we want
-        // to use. 
+        // to use.
         for (int row = board.length - 1; row >= 0; --row) {
             for (int col = 0; col < board[0].length; ++col) {
                 char ch = board[row][col];
@@ -138,7 +154,7 @@ public class Board{
      * @param int r - The current row we are checking
      * @param int c - The current column we are checking
      */
-    private int getInRowLength(char ch, int depth, int dx, int dy, int r, int c) {
+    private int getInRowLength(char ch, int depth, int dx, int dy, int row, int col) {
         /// @todo change algorithm to use dr and dc
         
         // we are given a direction by \p dx and \p dy. The algorithm travels that direction
@@ -147,34 +163,41 @@ public class Board{
         // This function should be run in every 8 cardinal direction (n s e w ne nw se sw)        
     
         // If we are out of bounds then just return how far we have gotten
-        if (checkOutOfBounds(r, c))
+        if (checkOutOfBounds(row, col))
             return depth;
         
         // if we have the same char as the 0th depth then continue deeper
         // else just return the depth because this depth is the last one in
         // a sequence
-        if (board[r][c] == ch)
-            return getInRowLength(ch, depth + 1, dx, dy, r + dy, c + dx);
+        if (board[row][col] == ch)
+            return getInRowLength(ch, depth + 1, dx, dy, row + dy, col + dx);
         return depth;
     }
     
     /**
-     * Checks if the row and column we pass in are within the board
+     * Checks if the row and column we pass in area within the board
      *
      * @author Aryan Gupta
      * @return boolean - If the parameters passed in are within the bounds of the board
      * @param int r - The row number to check
      * @param int c - The column number to check
      */
-    private boolean checkOutOfBounds(int r, int c) {
+    private boolean checkOutOfBounds(int row, int col) {
         return
-           r >= board   .length
-        || c >= board[0].length
-        || r <  0
-        || c <  0;
+           row >= board   .length
+        || col >= board[0].length
+        || row <  0
+        || col <  0;
         
     }
-    
+	
+    /**
+     * Places a piece on the board. Lets the piece 'slide' to the bottom.
+     *
+     * @author Manuel Diaz, Efrem Gebrekidane, Aryan Gupta
+     * @param int column - The column number to place the piece
+     * @param char player - The placer's piece
+     */    
     public void place(int columm, char player){
         int index = getAvailable(columm);
         if (index== -1){
@@ -184,15 +207,31 @@ public class Board{
         
     }
     
-    private int getAvailable(int columm){
+	/** 
+	 * Returns the top most available spot to place the piece
+	 * The int returned and the column pair to make a coordinate
+	 * that is guaranteed to be free (empty)
+	 *
+	 * @author Manuel Diaz, Efrem Gebrekidane, Aryan Gupta
+	 * @param int column - The column to get the top-most available cell
+	 * @return int - The row of the top-most available cell
+	 */
+    private int getAvailable(int column){
       for(int i = 0; i< board.length; i++){
-          if (board[i][columm] != '\0'){
+          if (board[i][column] != '\0'){
              return i - 1;
             }  
         }
         return board.length -1;
     }
     
+	/** 
+	 * Returns true if the board is filled and no more pieces can be 
+	 * placed on the board. 
+	 *
+	 * @author Manuel Diaz, Efrem Gebrekidane, Aryan Gupta
+	 * @return boolean - If the board is filled
+	 */
     public boolean getFill(){
         for (int i = 0; i< board.length; i++){
           for(int k = 0; k< board[i].length; k++){
@@ -204,16 +243,24 @@ public class Board{
         return true;
     }
     
+	/** 
+     * Returns the string representation of the board
+	 *
+	 * @author Manuel Diaz, Efrem Gebrekidane, Aryan Gupta
+	 * @return String - A textual representation of the state of the Board object
+     * showing the chips that have been place
+	 */
     public String toString(){
         String table = new String();
         
         for(int i =0; i <board.length; i++){
+			table += "|";
             for(int k = 0; k< board[i].length; k++){
                 table += (board[i][k] == '\0') ? ' ': board[i][k];
-                table += " ";
+                table += " | ";
                 
             }
-            table += "\n";
+            table += " |\n";
         }
         return table;
     }
@@ -226,4 +273,10 @@ public class Board{
     - Add doc for class and other methods
     - set getAvailable(int) function to private as it will only be called within the class
     - Formating
+ Aug 9 - Manuel Diaz
+    - Added comment to each method left
+ Aug 10 - Aryan
+	- Add documentation to non-doc'ed methods
+	- Add grid to toString() method
+	- Merged Manuel's edits into final version
 */
